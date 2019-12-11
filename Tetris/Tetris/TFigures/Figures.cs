@@ -1,5 +1,6 @@
 ﻿namespace Tetris.TFigures
 {
+    using System;
     using System.Collections.Generic;
     using Contracts;
 
@@ -181,6 +182,14 @@
             figuresZ.Enqueue(figureZ);
             figuresZ.Enqueue(rotatedZ);
             this.list.Add(figuresZ);
+        }
+
+        public bool [,] Rotate(Queue<bool[,]> rotations)
+        {
+            var figure = rotations.Dequeue();
+            rotations.Enqueue(figure);
+
+            return figure;
         }
     }
 }

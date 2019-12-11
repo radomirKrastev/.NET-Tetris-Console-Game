@@ -8,7 +8,7 @@ namespace Tetris.IO.Contracts
 
         void PrintScore(string score);
 
-        void PrintControls(string controls);
+        void PrintControls();
 
         void PrintLevel(string level);
 

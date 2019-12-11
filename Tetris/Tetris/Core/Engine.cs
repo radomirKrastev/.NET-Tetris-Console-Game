@@ -38,7 +38,7 @@
 
         public void Run()
         {
-            //user inpu
+            //user input
             //change state
             //redraw UI
             
@@ -71,15 +71,13 @@
                         Thread.Sleep(40);
                     }
 
-                    this.field.DrawField();
+                    this.drawer.DrawWholeField(this.field.Field);
+                    this.drawer.PrintScore(this.information.Score.ToString());
+                    this.drawer.PrintLevel(this.information.Level.ToString());
+                    this.drawer.PrintControls();
                     this.drawer.DrawFigure(fallingFigure, this.currentRow, this.currentCol);
                     this.currentRow++;
-                }
-                
-
-                
-
-                   
+                }  
             }
         }
     }

@@ -7,7 +7,5 @@
         IStatisticsField StatisticsField { get; }
 
         string Field { get; }
-
-        void DrawField();
     }
 }

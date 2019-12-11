@@ -12,7 +12,6 @@
 
         public TetrisField()
         {
-            this.drawer = new Drawer();
             this.PlayingField = new PlayingField();
             this.StatisticsField = new StatisticsField();
         }
@@ -23,21 +22,18 @@
 
         public string Field => CreateField();
 
-        public void DrawField()
-        {
-            this.drawer.DrawWholeField(this.Field);
-        }
-
         private string CreateField()
         {
-            var fieldRows = 1 + this.PlayingField.Rows + 1;
-            var fieldCols = 1 + this.PlayingField.Cols + 1 + this.StatisticsField.Cols + 1;
+            //var fieldRows = 1 + this.PlayingField.Rows + 1;
+            //var fieldCols = 1 + this.PlayingField.Cols + 1 + this.StatisticsField.Cols + 1;
 
-            Console.WindowHeight = fieldRows + 1;
-            Console.WindowWidth = fieldCols;
-            Console.BufferHeight = fieldRows + 1;
-            Console.BufferWidth = fieldCols;
-            Console.CursorVisible = false;
+            ////TODO da iznesa Console class-a
+
+            //Console.WindowHeight = fieldRows + 1;
+            //Console.WindowWidth = fieldCols;
+            //Console.BufferHeight = fieldRows + 1;
+            //Console.BufferWidth = fieldCols;
+            //Console.CursorVisible = false;
 
             var outputField = new StringBuilder();
 
