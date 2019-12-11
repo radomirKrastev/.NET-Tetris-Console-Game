@@ -6,6 +6,6 @@
     {
         List<Queue<bool[,]>> List { get; }
 
-        public bool[,] Rotate(Queue<bool[,]> rotations)
+        public bool[,] Rotate(Queue<bool[,]> rotations);
     }
 }

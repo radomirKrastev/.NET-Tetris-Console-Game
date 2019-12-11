@@ -12,10 +12,32 @@
         private ITetrisField field;
         private IFigures figures;
 
-        public Controller(TetrisField field)
+        public Controller(ITetrisField field)
         {
             this.field = field;
             this.figures = new Figures();
+        }
+
+        public int MoveLeft(bool[,] currentFigure, int row, int col)
+        {
+            if (!CheckForCollision(row, col, currentFigure))
+            {
+                return col -= 1;
+
+            }
+
+            return col;
+        }
+
+        public int MoveRight(bool[,] currentFigure, int row, int col)
+        {
+            if (!CheckForCollision(row, col, currentFigure))
+            {
+                return col += 1;
+
+            }
+
+            return col;
         }
 
         public bool[,] RotateFigure(bool[,] currentFigure, int row, int col, Queue<bool[,]> rotations)

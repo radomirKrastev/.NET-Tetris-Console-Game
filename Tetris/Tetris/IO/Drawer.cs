@@ -14,9 +14,9 @@
         private IInformable information;
         private ConsoleConfigurator configurator;
 
-        public Drawer(TetrisField field)
+        public Drawer(ITetrisField field)
         {
-            this.configurator = new ConsoleConfigurator();
+            this.configurator = new ConsoleConfigurator(this.field);
             this.field = field;
             this.information = new Information();
         }
@@ -41,6 +41,8 @@
 
             //    Console.SetCursorPosition(col, row + 1);
             //}
+
+            Console.SetCursorPosition(col, row);
 
             for (int i = 0; i < figure.GetLength(0); i++)
             {

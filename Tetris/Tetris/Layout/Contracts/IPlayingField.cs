@@ -5,5 +5,7 @@
         int Rows { get; }
 
         int Cols { get; }
+
+        bool[,] Matrix { get; }
     }
 }
