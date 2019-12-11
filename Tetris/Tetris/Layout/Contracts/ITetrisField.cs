@@ -6,6 +6,8 @@
 
         IStatisticsField StatisticsField { get; }
 
-        string ToString();
+        string Field { get; }
+
+        void DrawField();
     }
 }

@@ -4,8 +4,14 @@ namespace Tetris.IO.Contracts
 {
     public interface IDrawable
     {
-        void WriteLine(int row, int col, ConsoleColor color);
+        void DrawWholeField(string wholeField);
 
-        void Write(int row, int col, ConsoleColor color);
+        void PrintScore(string score);
+
+        void PrintControls(string controls);
+
+        void PrintLevel(string level);
+
+        void DrawFigure(bool [,] figure, int row, int col);
     }
 }
