@@ -2,21 +2,29 @@
 {
     using System;
     using Contracts;
-    //using Layout;
-    //using Tetris.Layout.Contracts;
 
     public class Drawer : IDrawable
     {
-        //private ITetrisField field;
-
-        //public Drawer()
-        //{
-              //this.field = new TetrisField();
-        //}
-
         public void DrawFigure(bool[,] figure, int row, int col)
         {
-            throw new NotImplementedException();
+            Console.SetCursorPosition(col, row);
+
+            for (int i = 0; i < figure.GetLength(0); i++)
+            {
+                for (int j = 0; j < figure.GetLength(1); j++)
+                {
+                    if (figure[i, j])
+                    {
+                        Console.Write('*');
+                    }
+                    else
+                    {
+                        Console.Write(string.Empty);
+                    }
+                }
+
+                Console.SetCursorPosition(col, row + 1);
+            }
         }
 
 
@@ -44,10 +52,16 @@
 
         public void DrawWholeField(string wholeField)
         {
+            Console.SetCursorPosition(0, 0);
             Console.WriteLine(wholeField);
         }
 
         public void PrintLevel(string level)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ClearLine(bool[,] figure, int row, int col)
         {
             throw new NotImplementedException();
         }

@@ -4,7 +4,7 @@ namespace Tetris.IO.Contracts
 {
     public interface IDrawable
     {
-        void DrawWholeField(string wholeField);
+        void DrawWholeField(string wholeFields);
 
         void PrintScore(string score);
 
@@ -13,5 +13,7 @@ namespace Tetris.IO.Contracts
         void PrintLevel(string level);
 
         void DrawFigure(bool [,] figure, int row, int col);
+
+        void ClearLine(bool [,] figure, int row, int col);
     }
 }
