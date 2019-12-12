@@ -15,5 +15,7 @@ namespace Tetris.IO.Contracts
         void DrawFigure(bool [,] figure, int row, int col);
 
         void ClearLine(bool [,] figure, int row, int col);
+
+        void DrawOccupiedSpots (bool[,] matrix);
     }
 }

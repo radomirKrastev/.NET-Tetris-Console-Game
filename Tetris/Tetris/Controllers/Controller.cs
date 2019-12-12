@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using Contracts;
-    using Tetris.Layout;
     using Tetris.Layout.Contracts;
     using Tetris.TFigures;
     using Tetris.TFigures.Contracts;
@@ -20,10 +19,9 @@
 
         public int MoveLeft(bool[,] currentFigure, int row, int col)
         {
-            if (!CheckForCollision(row, col, currentFigure))
+            if (col > 1)
             {
                 return col -= 1;
-
             }
 
             return col;
@@ -31,10 +29,11 @@
 
         public int MoveRight(bool[,] currentFigure, int row, int col)
         {
-            if (!CheckForCollision(row, col, currentFigure))
+            var greatestColIndex = currentFigure.GetLength(1) - 1;
+
+            if (col + greatestColIndex < this.field.PlayingField.Cols)
             {
                 return col += 1;
-
             }
 
             return col;
@@ -46,39 +45,29 @@
             {
                 var rotatedFigure = this.figures.Rotate(rotations);
 
-                if(rotatedFigure == currentFigure)
+                if (rotatedFigure == currentFigure)
                 {
                     return currentFigure;
                 }
                 else
                 {
-                    if(!CheckForCollision(row, col, rotatedFigure))
+                    var greatestColIndex = rotatedFigure.GetLength(1) - 1;
+
+                    if (col >= 1 && col + greatestColIndex <= this.field.PlayingField.Cols)
                     {
                         return rotatedFigure;
                     }
 
                     return currentFigure;
                 }
-
             }
         }
 
-        private bool CheckForCollision(int row, int col, bool[,] figure)
+        public bool FigureCollides(bool[,] currentFigure, int row, int col)
         {
-            for (int r = 0; r < figure.GetLength(0); r++)
+            if(row + currentFigure.GetLength(0) - 1 == this.field.PlayingField.Matrix.GetLength(0))
             {
-                for (int c = 0; c < figure.GetLength(1); c++)
-                {
-                    if(figure[r, c] && 
-                        (this.field.PlayingField.Matrix[row + r, col + c] 
-                        || row + r > this.field.PlayingField.Rows
-                        || row + r < 1
-                        || col + c > this.field.PlayingField.Cols
-                        || row + r < 1))
-                    {
-                        return true;
-                    }
-                }
+                return true;
             }
 
             return false;

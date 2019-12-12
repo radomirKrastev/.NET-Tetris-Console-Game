@@ -23,25 +23,6 @@
 
         public void DrawFigure(bool[,] figure, int row, int col)
         {
-            //Console.SetCursorPosition(col, row);
-
-            //for (int i = 0; i < figure.GetLength(0); i++)
-            //{
-            //    for (int j = 0; j < figure.GetLength(1); j++)
-            //    {
-            //        if (figure[i, j])
-            //        {
-            //            Console.Write('*');
-            //        }
-            //        else
-            //        {
-            //            Console.Write(string.Empty);
-            //        }
-            //    }
-
-            //    Console.SetCursorPosition(col, row + 1);
-            //}
-
             for (int r = 0; r < figure.GetLength(0); r++)
             {
                 for (int c = 0; c < figure.GetLength(1); c++)
@@ -105,6 +86,22 @@
         public void ClearLine(bool[,] figure, int row, int col)
         {
             throw new NotImplementedException();
+        }
+
+        public void DrawOccupiedSpots(bool[,] matrix)
+        {
+            for (int r = 0; r < matrix.GetLength(0); r++)
+            {
+                for (int c = 0; c < matrix.GetLength(1); c++)
+                {
+                    if (matrix[r, c])
+                    {
+                        Console.SetCursorPosition(c, r + 1);
+
+                        Console.Write("*");
+                    }
+                }
+            }
         }
     }
 }

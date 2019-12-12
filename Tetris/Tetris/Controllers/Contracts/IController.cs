@@ -9,5 +9,7 @@ namespace Tetris.Controllers.Contracts
         int MoveLeft(bool[,] currentFigure, int row, int col);
 
         int MoveRight(bool[,] currentFigure, int row, int col);
+
+        bool FigureCollides(bool[,] currentFigure, int row, int col);
     }
 }

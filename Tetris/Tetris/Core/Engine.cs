@@ -51,31 +51,30 @@
 
             this.configurator.Configure();
 
-            //var random = new Random();
-            //var index = random.Next(0, this.figures.List.Count);
-            //var currentFigures = this.figures.List[index];
-            //var fallingFigure = currentFigures.Dequeue();
-            //currentFigures.Enqueue(fallingFigure);
-
-
-            //if (fallingFigure.GetLength(0) == 2 && fallingFigure.GetLength(1) == 1)
-            //{
-            //    this.currentCol += 1;
-            //}
-
-            var currentFigures = this.figures.List[6];
+            var random = new Random();
+            var index = random.Next(0, this.figures.List.Count);
+            var currentFigures = this.figures.List[index];
             var fallingFigure = currentFigures.Dequeue();
             currentFigures.Enqueue(fallingFigure);
 
 
+            if (fallingFigure.GetLength(0) == 2 && fallingFigure.GetLength(1) == 1)
+            {
+                this.currentCol += 1;
+            }
+
+            //var currentFigures = this.figures.List[6];
+            //var fallingFigure = currentFigures.Dequeue();
+            //currentFigures.Enqueue(fallingFigure);
+
+            this.drawer.DrawWholeField(this.field.Field);
+            this.drawer.PrintScore(this.information.Score.ToString());
+            this.drawer.PrintLevel(this.information.Level.ToString());
+            this.drawer.PrintControls();
+            this.drawer.DrawFigure(fallingFigure, this.currentRow, this.currentCol);
+
             while (true)
             {
-                this.drawer.DrawWholeField(this.field.Field);
-                this.drawer.PrintScore(this.information.Score.ToString());
-                this.drawer.PrintLevel(this.information.Level.ToString());
-                this.drawer.PrintControls();
-                this.drawer.DrawFigure(fallingFigure, this.currentRow, this.currentCol);
-
                 if (Console.KeyAvailable)
                 {
                     var key = Console.ReadKey();
@@ -106,6 +105,25 @@
                 this.drawer.PrintScore(this.information.Score.ToString());
                 this.drawer.PrintLevel(this.information.Level.ToString());
                 this.drawer.PrintControls();
+               
+                if (this.controller.FigureCollides(fallingFigure, currentRow, currentCol))
+                {
+                    for (int r = 0; r < fallingFigure.GetLength(0); r++)
+                    {
+                        for (int c = 0; c < fallingFigure.GetLength(1); c++)
+                        {
+                            if(fallingFigure[r, c])
+                            {
+                                this.field.PlayingField.Matrix[currentRow - 1 + r, currentCol + c] = true;
+                            }
+                        }
+                    }
+
+                    this.drawer.DrawOccupiedSpots(this.field.PlayingField.Matrix);
+
+                    Console.ReadLine();
+                }
+
                 this.drawer.DrawFigure(fallingFigure, this.currentRow, this.currentCol);
                 this.frame++;
 
