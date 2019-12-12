@@ -96,7 +96,7 @@
                 {
                     if (matrix[r, c])
                     {
-                        Console.SetCursorPosition(c, r + 1);
+                        Console.SetCursorPosition(c + 1, r + 1);
 
                         Console.Write("*");
                     }

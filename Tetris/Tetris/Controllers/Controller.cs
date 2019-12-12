@@ -24,6 +24,17 @@
                 return col -= 1;
             }
 
+            for (int r = 0; r < currentFigure.GetLength(0); r++)
+            {
+                for (int c = 0; c < currentFigure.GetLength(1); c++)
+                {
+                    if (this.field.PlayingField.Matrix[row + r - 1, col + c - 1])
+                    {
+                        return col;
+                    }
+                }
+            }
+
             return col;
         }
 
@@ -34,6 +45,17 @@
             if (col + greatestColIndex < this.field.PlayingField.Cols)
             {
                 return col += 1;
+            }
+
+            for (int r = 0; r < currentFigure.GetLength(0); r++)
+            {
+                for (int c = currentFigure.GetLength(1) - 1; c >= 0; c--)
+                {
+                    if(this.field.PlayingField.Matrix[row + r - 1, col + c])
+                    {
+                        return col;
+                    }
+                }
             }
 
             return col;
@@ -65,7 +87,16 @@
 
         public bool FigureCollides(bool[,] currentFigure, int row, int col)
         {
-            if(row + currentFigure.GetLength(0) - 1 == this.field.PlayingField.Matrix.GetLength(0))
+            for (int c = 0; c < currentFigure.GetLength(1); c++)
+            {
+                if (row + currentFigure.GetLength(0) < this.field.PlayingField.Matrix.GetLength(0) &&
+                    this.field.PlayingField.Matrix[row + currentFigure.GetLength(0) - 1, col + c - 1])
+                {
+                    return true;
+                }
+            }
+
+            if (row + currentFigure.GetLength(0) - 1 == this.field.PlayingField.Matrix.GetLength(0))
             {
                 return true;
             }
