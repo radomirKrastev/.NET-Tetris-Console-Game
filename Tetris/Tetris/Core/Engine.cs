@@ -50,31 +50,31 @@
             //redraw UI
 
             this.configurator.Configure();
-            var currentFigures = new Queue<bool[,]>();
+
+            //var random = new Random();
+            //var index = random.Next(0, this.figures.List.Count);
+            //var currentFigures = this.figures.List[index];
+            //var fallingFigure = currentFigures.Dequeue();
+            //currentFigures.Enqueue(fallingFigure);
 
 
+            //if (fallingFigure.GetLength(0) == 2 && fallingFigure.GetLength(1) == 1)
+            //{
+            //    this.currentCol += 1;
+            //}
 
-
-            var random = new Random();
-
-            var index = random.Next(0, this.figures.List.Count);
-
-            currentFigures = this.figures.List[index];
-
+            var currentFigures = this.figures.List[6];
             var fallingFigure = currentFigures.Dequeue();
             currentFigures.Enqueue(fallingFigure);
 
-            if (fallingFigure.GetLength(0) == 2 && fallingFigure.GetLength(1) == 1)
-            {
-                this.currentCol += 1;
-            }
 
             while (true)
             {
-                
-
-
-                
+                this.drawer.DrawWholeField(this.field.Field);
+                this.drawer.PrintScore(this.information.Score.ToString());
+                this.drawer.PrintLevel(this.information.Level.ToString());
+                this.drawer.PrintControls();
+                this.drawer.DrawFigure(fallingFigure, this.currentRow, this.currentCol);
 
                 if (Console.KeyAvailable)
                 {
@@ -82,17 +82,17 @@
 
                     if (key.Key == ConsoleKey.UpArrow || key.Key == ConsoleKey.Spacebar)
                     {
-                        controller.RotateFigure(fallingFigure, this.currentRow, this.currentCol, currentFigures);
+                        fallingFigure = controller.RotateFigure(fallingFigure, this.currentRow, this.currentCol, currentFigures);
                     }
 
                     if (key.Key == ConsoleKey.LeftArrow)
                     {
-                        controller.MoveLeft(fallingFigure, this.currentRow, this.currentCol);
+                        this.currentCol = controller.MoveLeft(fallingFigure, this.currentRow, this.currentCol);
                     }
 
                     if (key.Key == ConsoleKey.RightArrow)
                     {
-                        controller.MoveRight(fallingFigure, this.currentRow, this.currentCol);
+                        this.currentCol = controller.MoveRight(fallingFigure, this.currentRow, this.currentCol);
                     }
                 }
 

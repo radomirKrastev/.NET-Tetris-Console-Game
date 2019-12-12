@@ -42,13 +42,13 @@
             //    Console.SetCursorPosition(col, row + 1);
             //}
 
-            Console.SetCursorPosition(col, row);
-
-            for (int i = 0; i < figure.GetLength(0); i++)
+            for (int r = 0; r < figure.GetLength(0); r++)
             {
-                for (int j = 0; j < figure.GetLength(1); j++)
+                for (int c = 0; c < figure.GetLength(1); c++)
                 {
-                    if (figure[i, j])
+                    Console.SetCursorPosition(col + c, row + r);
+
+                    if (figure[r, c])
                     {
                         Console.Write('*');
                     }
@@ -57,8 +57,6 @@
                         Console.Write(string.Empty);
                     }
                 }
-
-                Console.SetCursorPosition(col, row + 1);
             }
         }
 
@@ -92,7 +90,7 @@
         public void DrawWholeField(string wholeField)
         {
             Console.SetCursorPosition(0, 0);
-            Console.WriteLine(wholeField);
+            Console.Write(wholeField);
         }
 
         public void PrintLevel(string level)
@@ -101,7 +99,7 @@
             var col = this.field.PlayingField.Cols + 2;
             Console.SetCursorPosition(col, row);
 
-            Console.WriteLine($"Level: {this.information.Level}");
+            Console.Write($"Level: {this.information.Level}");
         }
 
         public void ClearLine(bool[,] figure, int row, int col)

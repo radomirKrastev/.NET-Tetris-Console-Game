@@ -39,8 +39,6 @@
             var figureO = new bool[,]
             {
                 { true, true },
-                { true, true },
-                { true, true },
                 { true, true }
             };
 
