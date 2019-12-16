@@ -1,6 +1,6 @@
 ﻿namespace Tetris.GameInformation.Contracts
 {
-    public class IFieldInformation
+    public interface IFieldInformation
     {
         int Rows { get; }
 

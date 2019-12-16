@@ -43,34 +43,9 @@
             this.currentFigures = new Queue<bool[,]>();
         }
 
-        private void GenerateFigures()
-        {
-            var random = new Random();
-            var index = random.Next(0, this.figures.List.Count);
-            this.currentFigures = new Queue<bool[,]>(this.figures.List[index]);
-            this.fallingFigure = currentFigures.Dequeue();
-            this.currentFigures.Enqueue(fallingFigure);
-        }
-
         public void Run()
         {
-            //    var random = new Random();
-            //    var index = random.Next(0, this.figures.List.Count);
-            //    this.currentFigures = this.figures.List[index];
-            //    this.fallingFigure = currentFigures.Dequeue();
-            //    this.currentFigures.Enqueue(fallingFigure);
-
-            GenerateFigures();
-
-            if (fallingFigure.GetLength(0) == 2 && fallingFigure.GetLength(1) == 1)
-            {
-                this.currentCol += 1;
-            }
-
-            //var currentFigures = this.figures.List[2];
-            //var fallingFigure = currentFigures.Dequeue();
-            //currentFigures.Enqueue(fallingFigure);
-
+            this.GenerateFigure();
             this.DrawLayout();
             this.drawer.DrawFigure(fallingFigure, this.currentRow, this.currentCol);
 
@@ -82,17 +57,17 @@
 
                     if (key.Key == ConsoleKey.UpArrow || key.Key == ConsoleKey.Spacebar)
                     {
-                        fallingFigure = controller.RotateFigure(fallingFigure, this.currentRow, this.currentCol, this.currentFigures);
+                        this.fallingFigure = controller.RotateFigure(this.fallingFigure, this.currentRow, this.currentCol, this.currentFigures);
                     }
 
                     if (key.Key == ConsoleKey.LeftArrow)
                     {
-                        this.currentCol = controller.MoveLeft(fallingFigure, this.currentRow, this.currentCol);
+                        this.currentCol = controller.MoveLeft(this.fallingFigure, this.currentRow, this.currentCol);
                     }
 
                     if (key.Key == ConsoleKey.RightArrow)
                     {
-                        this.currentCol = controller.MoveRight(fallingFigure, this.currentRow, this.currentCol);
+                        this.currentCol = controller.MoveRight(this.fallingFigure, this.currentRow, this.currentCol);
                     }
 
                     if (key.Key == ConsoleKey.DownArrow)
@@ -108,10 +83,9 @@
                     this.frame = 1;
                     this.currentRow++;                    
                 }
-
-
+                
                 this.DrawLayout();
-                this.drawer.DrawOccupiedSpots(this.field.PlayingField.Matrix);
+                this.drawer.DrawOccupiedSpots(this.field.Matrix);
 
                 if (this.controller.FigureCollides(fallingFigure, currentRow, currentCol))
                 {
@@ -121,20 +95,22 @@
                         {
                             if (fallingFigure[r, c])
                             {
-                                this.field.PlayingField.Matrix[currentRow - 1 + r, currentCol + c -1] = true;
+                                this.field.Matrix[currentRow - 1 + r, currentCol + c -1] = true;
                             }
                         }
                     }
 
-                    this.controller.ClearLines();
+                    var linesCleared = this.controller.ClearLines();
+                    this.GiveLinesClearedScore(linesCleared);
 
-                    this.drawer.DrawOccupiedSpots(this.field.PlayingField.Matrix);
+                    
+                    this.drawer.DrawOccupiedSpots(this.field.Matrix);
 
                     this.currentCol = 4;
                     this.currentRow = 1;
                     this.frame = 0;
 
-                    GenerateFigures();
+                    this.GenerateFigure();
                 }
 
                 this.drawer.DrawFigure(fallingFigure, this.currentRow, this.currentCol);
@@ -144,12 +120,48 @@
             }
         }
 
-        private void DrawLayout()
+        private void GiveLinesClearedScore(int linesCleared)
+        {
+            switch (linesCleared)
+            {
+                case 0:
+                    break;
+                case 1:
+                    this.information.Score += 100;
+                    break;
+                case 2:
+                    this.information.Score += 300;
+                    break;
+                case 3:
+                    this.information.Score += 400;
+                    break;
+                case 4:
+                    this.information.Score += 500;
+                    break;
+            }
+
+        }
+
+            private void DrawLayout()
         {
             this.drawer.DrawWholeField(this.field.Field);
             this.drawer.PrintScore(this.information.Score.ToString());
             this.drawer.PrintLevel(this.information.Level.ToString());
             this.drawer.PrintControls();
+        }
+
+        private void GenerateFigure()
+        {
+            var random = new Random();
+            var index = random.Next(0, this.figures.List.Count);
+            this.currentFigures = new Queue<bool[,]>(this.figures.List[index]);
+            this.fallingFigure = currentFigures.Dequeue();
+            this.currentFigures.Enqueue(fallingFigure);
+
+            if (fallingFigure.GetLength(0) == 2 && fallingFigure.GetLength(1) == 1)
+            {
+                this.currentCol += 1;
+            }
         }
     }
 }

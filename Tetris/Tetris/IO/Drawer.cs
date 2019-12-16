@@ -3,9 +3,7 @@
     using System;
     using Contracts;
     using Tetris.Configurations;
-    using Tetris.GameInformation;
     using Tetris.GameInformation.Contracts;
-    using Tetris.Layout;
     using Tetris.Layout.Contracts;
 
     public class Drawer : IDrawable
@@ -44,7 +42,7 @@
         public void PrintControls()
         {
             var row = 14;
-            var col = this.field.PlayingField.Cols + 2;
+            var col = this.field.PlayingFieldCols + 2;
 
             Console.SetCursorPosition(col, row);
             var change = "   ▲/Space";
@@ -62,7 +60,7 @@
         public void PrintScore(string score)
         {
             var row = 1;
-            var col = this.field.PlayingField.Cols + 2;
+            var col = this.field.PlayingFieldCols + 2;
             Console.SetCursorPosition(col, row);
 
             Console.WriteLine($"Score: {this.information.Score}");
@@ -77,15 +75,10 @@
         public void PrintLevel(string level)
         {
             var row = 3;
-            var col = this.field.PlayingField.Cols + 2;
+            var col = this.field.PlayingFieldCols + 2;
             Console.SetCursorPosition(col, row);
 
             Console.Write($"Level: {this.information.Level}");
-        }
-
-        public void ClearLine(bool[,] figure, int row, int col)
-        {
-            throw new NotImplementedException();
         }
 
         public void DrawOccupiedSpots(bool[,] matrix)

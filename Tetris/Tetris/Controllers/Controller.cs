@@ -29,7 +29,7 @@
                 for (int c = 0; c < currentFigure.GetLength(1); c++)
                 {
                     if (currentFigure[r, c]
-                        && this.field.PlayingField.Matrix[row + r - 1, col + c - 1 -1])
+                        && this.field.Matrix[row + r - 1, col + c - 1 -1])
                     {
                         return col;
                     }
@@ -43,7 +43,7 @@
         {
             var greatestColIndex = currentFigure.GetLength(1) - 1;
 
-            if (col + greatestColIndex >= this.field.PlayingField.Cols)
+            if (col + greatestColIndex >= this.field.PlayingFieldCols)
             {
                 return col;
             }
@@ -53,7 +53,7 @@
                 for (int c = currentFigure.GetLength(1) - 1; c >= 0; c--)
                 {
                     if (currentFigure[r, c]
-                        && this.field.PlayingField.Matrix[row + r - 1, col + c])
+                        && this.field.Matrix[row + r - 1, col + c])
                     {
                         return col;
                     }
@@ -77,7 +77,7 @@
                 {
                     var greatestColIndex = rotatedFigure.GetLength(1) - 1;
 
-                    if (col >= 1 && col + greatestColIndex <= this.field.PlayingField.Cols)
+                    if (col >= 1 && col + greatestColIndex <= this.field.PlayingFieldCols)
                     {
                         return rotatedFigure;
                     }
@@ -89,7 +89,7 @@
 
         public bool FigureCollides(bool[,] currentFigure, int row, int col)
         {
-            if (row + currentFigure.GetLength(0) - 1 == this.field.PlayingField.Matrix.GetLength(0))
+            if (row + currentFigure.GetLength(0) - 1 == this.field.Matrix.GetLength(0))
             {
                 return true;
             }
@@ -99,7 +99,7 @@
                 for (int c = 0; c < currentFigure.GetLength(1); c++)
                 {
                     if (currentFigure[r, c]
-                        && this.field.PlayingField.Matrix[row + r, col + c - 1])
+                        && this.field.Matrix[row + r, col + c - 1])
                     {
                         return true;
                     }
@@ -109,33 +109,39 @@
             return false;
         }
 
-        public void ClearLines()
+        public int ClearLines()
         {
-            for (int r = 0; r < this.field.PlayingField.Rows; r++)
+            var linesCleared = 0;
+
+            for (int r = 0; r < this.field.PlayingFieldRows; r++)
             {
                 if (ShouldClearLine(r))
                 {
                     for (int currentRow = r; currentRow >= 1; currentRow--)
                     {
-                        for (int c = 0; c < this.field.PlayingField.Cols; c++)
+                        for (int c = 0; c < this.field.PlayingFieldCols; c++)
                         {
-                            this.field.PlayingField.Matrix[currentRow, c] = this.field.PlayingField.Matrix[currentRow - 1, c];
+                            this.field.Matrix[currentRow, c] = this.field.Matrix[currentRow - 1, c];
                         }
                     }
 
-                    for (int c = 0; c < this.field.PlayingField.Cols; c++)
+                    for (int c = 0; c < this.field.PlayingFieldCols; c++)
                     {
-                        this.field.PlayingField.Matrix[0, c] = false;
+                        this.field.Matrix[0, c] = false;
                     }
+
+                    linesCleared ++;
                 }
             }
+
+            return linesCleared;
         }
 
         private bool ShouldClearLine(int row)
         {
-            for (int c = 0; c < this.field.PlayingField.Cols; c++)
+            for (int c = 0; c < this.field.PlayingFieldCols; c++)
             {
-                if (!this.field.PlayingField.Matrix[row, c])
+                if (!this.field.Matrix[row, c])
                 {
                     return false;
                 }

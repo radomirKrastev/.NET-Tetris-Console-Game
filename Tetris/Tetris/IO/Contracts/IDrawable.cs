@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Tetris.IO.Contracts
+﻿namespace Tetris.IO.Contracts
 {
     public interface IDrawable
     {
@@ -13,8 +11,6 @@ namespace Tetris.IO.Contracts
         void PrintLevel(string level);
 
         void DrawFigure(bool [,] figure, int row, int col);
-
-        void ClearLine(bool [,] figure, int row, int col);
 
         void DrawOccupiedSpots (bool[,] matrix);
     }
