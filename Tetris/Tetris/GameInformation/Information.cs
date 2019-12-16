@@ -2,9 +2,9 @@
 {
     using Contracts;
 
-    public class Information : IInformable
+    public class GameInformation : IGameInformable
     {
-        public Information()
+        public GameInformation()
         {
             this.Level = 1;
             this.Score = 0;

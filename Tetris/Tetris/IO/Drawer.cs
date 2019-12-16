@@ -11,14 +11,14 @@
     public class Drawer : IDrawable
     {
         private ITetrisField field;
-        private IInformable information;
+        private IGameInformable information;
         private ConsoleConfigurator configurator;
 
-        public Drawer(ITetrisField field)
+        public Drawer(ITetrisField field, IGameInformable information)
         {
             this.configurator = new ConsoleConfigurator(this.field);
             this.field = field;
-            this.information = new Information();
+            this.information = information;
         }
 
         public void DrawFigure(bool[,] figure, int row, int col)

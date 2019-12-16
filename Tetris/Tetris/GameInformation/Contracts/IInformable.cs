@@ -1,6 +1,6 @@
 ﻿namespace Tetris.GameInformation.Contracts
 {
-    public interface IInformable
+    public interface IGameInformable
     {
         int Score { get; set; }
 

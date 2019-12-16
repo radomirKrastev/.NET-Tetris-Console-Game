@@ -4,7 +4,7 @@
     {
         IPlayingField PlayingField { get; }
 
-        IStatisticsField StatisticsField { get; }
+        int StatisticsCols { get; }
 
         string Field { get; }
     }

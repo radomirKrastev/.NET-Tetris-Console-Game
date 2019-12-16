@@ -1,6 +1,5 @@
 ﻿namespace Tetris.TFigures
 {
-    using System;
     using System.Collections.Generic;
     using Contracts;
 

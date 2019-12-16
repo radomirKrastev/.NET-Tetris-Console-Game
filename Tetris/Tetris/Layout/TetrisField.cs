@@ -1,46 +1,34 @@
 ﻿namespace Tetris.Layout
 {
-    using Contracts;
-    using System;
     using System.Text;
-    using IO.Contracts;
-    using IO;
-
+    using Contracts;
+    
     public class TetrisField : ITetrisField
     {
-        private IDrawable drawer;
+        private const int StatisticsColsConst = 10;
+        private const int ConstRows = 20;
+        private const int PlayingFieldColsConst = 10;
 
         public TetrisField()
         {
             this.PlayingField = new PlayingField();
-            this.StatisticsField = new StatisticsField();
+            this.StatisticsCols = StatisticsColsConst;
         }
 
         public IPlayingField PlayingField { get; private set; }
 
-        public  IStatisticsField StatisticsField { get; private set; }
+        public  int StatisticsCols { get; private set; }
 
         public string Field => CreateField();
 
         private string CreateField()
         {
-            //var fieldRows = 1 + this.PlayingField.Rows + 1;
-            //var fieldCols = 1 + this.PlayingField.Cols + 1 + this.StatisticsField.Cols + 1;
-
-            ////TODO da iznesa Console class-a
-
-            //Console.WindowHeight = fieldRows + 1;
-            //Console.WindowWidth = fieldCols;
-            //Console.BufferHeight = fieldRows + 1;
-            //Console.BufferWidth = fieldCols;
-            //Console.CursorVisible = false;
-
             var outputField = new StringBuilder();
 
             outputField.Append('╔');
             outputField.Append('═', this.PlayingField.Cols);
             outputField.Append('╦');
-            outputField.Append('═', this.StatisticsField.Cols);
+            outputField.Append('═', this.StatisticsCols);
             outputField.Append('╗');
 
             for (int i = 0; i < this.PlayingField.Rows; i++)
@@ -51,7 +39,7 @@
                 line.Append('║');
                 line.Append(' ', this.PlayingField.Cols);
                 line.Append('║');
-                line.Append(' ', this.StatisticsField.Cols);
+                line.Append(' ', this.StatisticsCols);
                 line.Append("║");
 
                 outputField.Append(line.ToString().TrimEnd());
@@ -61,7 +49,7 @@
             outputField.Append('╚');
             outputField.Append('═', this.PlayingField.Cols);
             outputField.Append('╩');
-            outputField.Append('═', this.StatisticsField.Cols);
+            outputField.Append('═', this.StatisticsCols);
             outputField.Append('╝');
 
             return outputField.ToString().TrimEnd();

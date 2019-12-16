@@ -1,10 +1,7 @@
 ﻿namespace Tetris
 {
     using System;
-    using System.Collections.Generic;
     using Layout;
-    using IO;
-    using TFigures;
     using Tetris.Core;
     using Tetris.Configurations;
 
@@ -13,12 +10,11 @@
         public static void Main()
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
+            var configurator = new ConsoleConfigurator(new TetrisField());
+            configurator.Configure();
 
             var engine = new Engine();
-
             engine.Run();
-            
-
         }
     }
 }

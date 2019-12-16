@@ -1,5 +1,4 @@
 ﻿using System;
-using Tetris.Layout;
 using Tetris.Layout.Contracts;
 
 namespace Tetris.Configurations
@@ -22,7 +21,7 @@ namespace Tetris.Configurations
             Console.Title = "Tetris v 1.0";
 
             this.FieldRows = 1 + this.field.PlayingField.Rows + 1;
-            this.FieldCols = 1 + this.field.PlayingField.Cols + 1 + this.field.StatisticsField.Cols + 1;
+            this.FieldCols = 1 + this.field.PlayingField.Cols + 1 + this.field.StatisticsCols + 1;
 
             Console.WindowHeight = this.FieldRows + 1;
             Console.WindowWidth = this.FieldCols;
