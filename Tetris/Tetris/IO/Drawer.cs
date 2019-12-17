@@ -53,14 +53,28 @@
             Console.WriteLine(down);            
         }
 
-        public void PrintScore(string score)
+        public void PrintScore(int score, int highScore)
         {
             var row = 1;
             var col = this.field.PlayingFieldCols + 2;
             Console.SetCursorPosition(col, row);
             Console.WriteLine($"Score:");
             Console.SetCursorPosition(col, row + 1);
-            Console.WriteLine($"{this.information.Score}");
+            Console.WriteLine($"{score}");
+
+            Console.SetCursorPosition(col, row + 3);
+            Console.WriteLine($"Best Ever:");
+            Console.SetCursorPosition(col, row + 4);
+
+            if(highScore < score)
+            {
+                Console.WriteLine($"{score}");
+            }
+            else
+            {
+                Console.WriteLine($"{highScore}");
+            }
+            
         }
 
         public void DrawWholeField(string wholeField)
@@ -73,9 +87,9 @@
         {
             var row = 4;
             var col = this.field.PlayingFieldCols + 2;
-            Console.SetCursorPosition(col, row);
+            Console.SetCursorPosition(col, row + 3);
             Console.Write($"Level:");
-            Console.SetCursorPosition(col, row + 1);
+            Console.SetCursorPosition(col, row + 4);
             Console.Write($"{this.information.Level}");
         }
 

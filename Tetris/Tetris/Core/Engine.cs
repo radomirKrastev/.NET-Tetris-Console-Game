@@ -14,6 +14,9 @@
     using IO;
     using Layout;
     using Layout.Contracts;
+    using System.IO;
+    using System.Globalization;
+    using System.Text.RegularExpressions;
 
     public class Engine : IEngine
     {
@@ -28,6 +31,8 @@
         private int currentCol;
         private Queue<bool[,]> currentFigures;
         private bool[,] fallingFigure;
+        private string highScoreFileName = "highScore.txt";
+        private int highScore;
 
         public Engine()
         {
@@ -54,18 +59,34 @@
                 if(this.controller.CheckIfGameIsOver(this.fallingFigure, this.currentCol))
                 {
                     this.drawer.GameOver(this.information.Score);
+                    File.AppendAllLines(this.highScoreFileName, new List<string>()
+                    {
+                        $"[{DateTime.Now.ToLongDateString()}] ({Environment.UserName}) => {this.information.Score}"
+                    });
+
                     Environment.Exit(0);
                 }
 
+
+
                 UpdateLevel();
                 CheckForPressedKeyAndExecuteCommand(false);
-
-                this.frame++;
-
+                
                 if (this.frame == this.framesPerSecond - this.information.Level)
                 {
                     this.frame = 1;
                     this.currentRow++;
+                }
+
+                if (File.Exists(this.highScoreFileName))
+                {
+                    var allLines = File.ReadAllLines(this.highScoreFileName);
+
+                    foreach (var line in allLines)
+                    {
+                        var match = Regex.Match(line, @" => (?<score>[1-9]+)");
+                        this.highScore = Math.Max(this.highScore, int.Parse(match.Groups["score"].Value));
+                    }
                 }
 
                 this.DrawLayout();
@@ -99,6 +120,9 @@
 
                     this.GenerateFigure();
                 }
+
+                this.frame++;
+
 
 
                 Thread.Sleep(40);
@@ -183,7 +207,7 @@
         private void DrawLayout()
         {
             this.drawer.DrawWholeField(this.field.Field);
-            this.drawer.PrintScore(this.information.Score.ToString());
+            this.drawer.PrintScore(this.information.Score, this.highScore);
             this.drawer.PrintLevel(this.information.Level.ToString());
             this.drawer.PrintControls();
         }

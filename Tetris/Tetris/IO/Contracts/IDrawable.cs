@@ -6,7 +6,7 @@
 
         void DrawWholeField(string wholeFields);
 
-        void PrintScore(string score);
+        void PrintScore(int score, int highScore);
 
         void PrintControls();
 
