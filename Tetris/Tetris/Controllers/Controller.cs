@@ -29,7 +29,7 @@
                 for (int c = 0; c < currentFigure.GetLength(1); c++)
                 {
                     if (currentFigure[r, c]
-                        && this.field.Matrix[row + r - 1, col + c - 1 -1])
+                        && this.field.Matrix[row - 1 + r, col + c - 1 -1])
                     {
                         return col;
                     }
@@ -41,9 +41,9 @@
 
         public int MoveRight(bool[,] currentFigure, int row, int col)
         {
-            var greatestColIndex = currentFigure.GetLength(1) - 1;
+            var rightestCol = currentFigure.GetLength(1);
 
-            if (col + greatestColIndex >= this.field.PlayingFieldCols)
+            if (col - 1 + rightestCol >= this.field.PlayingFieldCols)
             {
                 return col;
             }
@@ -52,8 +52,7 @@
             {
                 for (int c = currentFigure.GetLength(1) - 1; c >= 0; c--)
                 {
-                    if (currentFigure[r, c]
-                        && this.field.Matrix[row + r - 1, col + c])
+                    if (currentFigure[r, c] && this.field.Matrix[row - 1 + r, col + c])
                     {
                         return col;
                     }

@@ -6,15 +6,15 @@
     using GameInformation;
     using GameInformation.Contracts;
     using Tetris.Controllers;
-    using Tetris.Controllers.Contracts;    
+    using Tetris.Controllers.Contracts;
     using Tetris.TFigures;
-    using Tetris.TFigures.Contracts;    
+    using Tetris.TFigures.Contracts;
     using Tetris.Core.Contracts;
     using IO.Contracts;
     using IO;
     using Layout;
     using Layout.Contracts;
-    
+
     public class Engine : IEngine
     {
         private IDrawable drawer;
@@ -51,59 +51,37 @@
 
             while (true)
             {
-                if (Console.KeyAvailable)
-                {
-                    var key = Console.ReadKey();
-
-                    if (key.Key == ConsoleKey.UpArrow || key.Key == ConsoleKey.Spacebar)
-                    {
-                        this.fallingFigure = controller.RotateFigure(this.fallingFigure, this.currentRow, this.currentCol, this.currentFigures);
-                    }
-
-                    if (key.Key == ConsoleKey.LeftArrow)
-                    {
-                        this.currentCol = controller.MoveLeft(this.fallingFigure, this.currentRow, this.currentCol);
-                    }
-
-                    if (key.Key == ConsoleKey.RightArrow)
-                    {
-                        this.currentCol = controller.MoveRight(this.fallingFigure, this.currentRow, this.currentCol);
-                    }
-
-                    if (key.Key == ConsoleKey.DownArrow)
-                    {
-                        this.frame++;
-                        this.currentRow++;
-                        this.information.Score++;
-                    }
-                }
+                CheckForPressedKeyAndExecuteCommand(false);
 
                 if (this.frame % this.framesPerSecond == 0)
                 {
                     this.frame = 1;
                     this.currentRow++;                    
-                }
-                
+                }                
+
                 this.DrawLayout();
                 this.drawer.DrawOccupiedSpots(this.field.Matrix);
 
-                if (this.controller.FigureCollides(fallingFigure, currentRow, currentCol))
+                if (this.controller.FigureCollides(this.fallingFigure, currentRow, currentCol))
                 {
+                    Thread.Sleep(100);
+                    CheckForPressedKeyAndExecuteCommand(true);
+
                     for (int r = 0; r < fallingFigure.GetLength(0); r++)
                     {
                         for (int c = 0; c < fallingFigure.GetLength(1); c++)
                         {
                             if (fallingFigure[r, c])
                             {
-                                this.field.Matrix[currentRow - 1 + r, currentCol + c -1] = true;
+                                this.field.Matrix[this.currentRow - 1 + r, this.currentCol + c - 1] = true;
                             }
                         }
                     }
 
-                    var linesCleared = this.controller.ClearLines();
-                    this.GiveLinesClearedScore(linesCleared);
+                    var linesClearedCount = this.controller.ClearLines();
+                    this.GiveLinesClearedScore(linesClearedCount);
 
-                    
+
                     this.drawer.DrawOccupiedSpots(this.field.Matrix);
 
                     this.currentCol = 4;
@@ -113,10 +91,61 @@
                     this.GenerateFigure();
                 }
 
-                this.drawer.DrawFigure(fallingFigure, this.currentRow, this.currentCol);
-                this.frame++;
+                this.drawer.DrawFigure(this.fallingFigure, this.currentRow, this.currentCol);
 
+                this.frame++;
                 Thread.Sleep(40);
+            }
+        }
+
+        private void UpdateLevel()
+        {
+            if (this.information.Score <= 0)
+            {
+                this.information.Level = 1;
+                return;
+            }
+
+            this.information.Level = (int)Math.Log10(this.information.Score) - 1;
+
+            if (this.information.Level < 1)
+            {
+                this.information.Level = 1;
+            }
+
+            if (this.information.Level > 10)
+            {
+                this.information.Level = 10;
+            }
+        }
+
+        private void CheckForPressedKeyAndExecuteCommand(bool collision)
+        {
+            if (Console.KeyAvailable)
+            {
+                var key = Console.ReadKey();
+
+                if (key.Key == ConsoleKey.UpArrow || key.Key == ConsoleKey.Spacebar)
+                {
+                    this.fallingFigure = controller.RotateFigure(this.fallingFigure, this.currentRow, this.currentCol, this.currentFigures);
+                }
+
+                if (key.Key == ConsoleKey.LeftArrow)
+                {
+                    this.currentCol = controller.MoveLeft(this.fallingFigure, this.currentRow, this.currentCol);
+                }
+
+                if (key.Key == ConsoleKey.RightArrow)
+                {
+                    this.currentCol = controller.MoveRight(this.fallingFigure, this.currentRow, this.currentCol);
+                }
+
+                if (key.Key == ConsoleKey.DownArrow && collision == false)
+                {
+                    this.frame++;
+                    this.currentRow++;
+                    this.information.Score++;
+                }
             }
         }
 
@@ -127,22 +156,21 @@
                 case 0:
                     break;
                 case 1:
-                    this.information.Score += 100;
+                    this.information.Score += 40 * (this.information.Level + 1);
                     break;
                 case 2:
-                    this.information.Score += 300;
+                    this.information.Score += 100 * (this.information.Level + 1);
                     break;
                 case 3:
-                    this.information.Score += 400;
+                    this.information.Score += 300 * (this.information.Level + 1);
                     break;
                 case 4:
-                    this.information.Score += 500;
+                    this.information.Score += 1200 * (this.information.Level + 1);
                     break;
             }
-
         }
 
-            private void DrawLayout()
+        private void DrawLayout()
         {
             this.drawer.DrawWholeField(this.field.Field);
             this.drawer.PrintScore(this.information.Score.ToString());
