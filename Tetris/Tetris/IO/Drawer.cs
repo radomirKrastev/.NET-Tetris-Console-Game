@@ -25,15 +25,10 @@
             {
                 for (int c = 0; c < figure.GetLength(1); c++)
                 {
-                    Console.SetCursorPosition(col + c, row + r);
-
-                    if (figure[r, c])
+                    if (figure[r, c] && col <= 10 && col > 0 && row <= 20 && row > 0 )
                     {
+                        Console.SetCursorPosition(col + c, row + r);
                         Console.Write('*');
-                    }
-                    else
-                    {
-                        Console.Write(string.Empty);
                     }
                 }
             }
@@ -62,8 +57,9 @@
             var row = 1;
             var col = this.field.PlayingFieldCols + 2;
             Console.SetCursorPosition(col, row);
-
-            Console.WriteLine($"Score: {this.information.Score}");
+            Console.WriteLine($"Score:");
+            Console.SetCursorPosition(col, row + 1);
+            Console.WriteLine($"{this.information.Score}");
         }
 
         public void DrawWholeField(string wholeField)
@@ -74,11 +70,12 @@
 
         public void PrintLevel(string level)
         {
-            var row = 3;
+            var row = 4;
             var col = this.field.PlayingFieldCols + 2;
             Console.SetCursorPosition(col, row);
-
-            Console.Write($"Level: {this.information.Level}");
+            Console.Write($"Level:");
+            Console.SetCursorPosition(col, row + 1);
+            Console.Write($"{this.information.Level}");
         }
 
         public void DrawOccupiedSpots(bool[,] matrix)

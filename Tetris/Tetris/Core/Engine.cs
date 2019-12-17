@@ -51,16 +51,25 @@
 
             while (true)
             {
+                UpdateLevel();
                 CheckForPressedKeyAndExecuteCommand(false);
 
-                if (this.frame % this.framesPerSecond == 0)
+                this.frame++;
+
+                if (this.frame == this.framesPerSecond)
                 {
                     this.frame = 1;
-                    this.currentRow++;                    
-                }                
+                    this.currentRow++;
+                }
 
                 this.DrawLayout();
                 this.drawer.DrawOccupiedSpots(this.field.Matrix);
+
+                //Console.SetCursorPosition(12, 9);
+                //Console.WriteLine(this.currentRow);
+
+
+                this.drawer.DrawFigure(this.fallingFigure, this.currentRow, this.currentCol);
 
                 if (this.controller.FigureCollides(this.fallingFigure, currentRow, currentCol))
                 {
@@ -73,15 +82,14 @@
                         {
                             if (fallingFigure[r, c])
                             {
-                                this.field.Matrix[this.currentRow - 1 + r, this.currentCol + c - 1] = true;
+                                this.field.Matrix[this.currentRow -1 + r, this.currentCol + c - 1] = true;
                             }
                         }
                     }
 
                     var linesClearedCount = this.controller.ClearLines();
                     this.GiveLinesClearedScore(linesClearedCount);
-
-
+                    
                     this.drawer.DrawOccupiedSpots(this.field.Matrix);
 
                     this.currentCol = 4;
@@ -91,9 +99,6 @@
                     this.GenerateFigure();
                 }
 
-                this.drawer.DrawFigure(this.fallingFigure, this.currentRow, this.currentCol);
-
-                this.frame++;
                 Thread.Sleep(40);
             }
         }
@@ -140,11 +145,14 @@
                     this.currentCol = controller.MoveRight(this.fallingFigure, this.currentRow, this.currentCol);
                 }
 
-                if (key.Key == ConsoleKey.DownArrow && collision == false)
+                if (key.Key == ConsoleKey.DownArrow 
+                    && this.fallingFigure.GetLength(0) - 1 + this.currentRow < this.field.PlayingFieldRows
+                    && collision == false
+                    && this.frame + 1 < this.framesPerSecond)
                 {
                     this.frame++;
-                    this.currentRow++;
                     this.information.Score++;
+                    this.currentRow++;
                 }
             }
         }

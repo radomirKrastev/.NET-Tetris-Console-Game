@@ -29,7 +29,7 @@
                 for (int c = 0; c < currentFigure.GetLength(1); c++)
                 {
                     if (currentFigure[r, c]
-                        && this.field.Matrix[row - 1 + r, col + c - 1 -1])
+                        && this.field.Matrix[row - 1 + r, col + c - 1 - 1])
                     {
                         return col;
                     }
@@ -88,11 +88,11 @@
 
         public bool FigureCollides(bool[,] currentFigure, int row, int col)
         {
-            if (row + currentFigure.GetLength(0) - 1 == this.field.Matrix.GetLength(0))
+            if (row + currentFigure.GetLength(0) - 1 >= this.field.Matrix.GetLength(0))
             {
                 return true;
             }
-            
+
             for (int r = currentFigure.GetLength(0) - 1; r >= 0; r--)
             {
                 for (int c = 0; c < currentFigure.GetLength(1); c++)
@@ -103,7 +103,7 @@
                         return true;
                     }
                 }
-            }            
+            }
 
             return false;
         }
@@ -129,7 +129,7 @@
                         this.field.Matrix[0, c] = false;
                     }
 
-                    linesCleared ++;
+                    linesCleared++;
                 }
             }
 
