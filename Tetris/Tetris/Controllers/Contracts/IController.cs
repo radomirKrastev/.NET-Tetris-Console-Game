@@ -13,5 +13,7 @@ namespace Tetris.Controllers.Contracts
         bool FigureCollides(bool[,] currentFigure, int row, int col);
 
         public int ClearLines();
+
+        public bool CheckIfGameIsOver(bool[,] currentFigure, int col);
     }
 }

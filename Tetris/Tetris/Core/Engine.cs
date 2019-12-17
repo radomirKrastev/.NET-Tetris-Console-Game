@@ -51,12 +51,18 @@
 
             while (true)
             {
+                if(this.controller.CheckIfGameIsOver(this.fallingFigure, this.currentCol))
+                {
+                    this.drawer.GameOver(this.information.Score);
+                    Environment.Exit(0);
+                }
+
                 UpdateLevel();
                 CheckForPressedKeyAndExecuteCommand(false);
 
                 this.frame++;
 
-                if (this.frame == this.framesPerSecond)
+                if (this.frame == this.framesPerSecond - this.information.Level)
                 {
                     this.frame = 1;
                     this.currentRow++;
@@ -64,11 +70,6 @@
 
                 this.DrawLayout();
                 this.drawer.DrawOccupiedSpots(this.field.Matrix);
-
-                //Console.SetCursorPosition(12, 9);
-                //Console.WriteLine(this.currentRow);
-
-
                 this.drawer.DrawFigure(this.fallingFigure, this.currentRow, this.currentCol);
 
                 if (this.controller.FigureCollides(this.fallingFigure, currentRow, currentCol))
@@ -98,6 +99,7 @@
 
                     this.GenerateFigure();
                 }
+
 
                 Thread.Sleep(40);
             }
@@ -148,7 +150,7 @@
                 if (key.Key == ConsoleKey.DownArrow 
                     && this.fallingFigure.GetLength(0) - 1 + this.currentRow < this.field.PlayingFieldRows
                     && collision == false
-                    && this.frame + 1 < this.framesPerSecond)
+                    && this.frame + 1 < this.framesPerSecond - this.information.Level)
                 {
                     this.frame++;
                     this.information.Score++;

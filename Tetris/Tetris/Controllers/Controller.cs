@@ -148,5 +148,18 @@
 
             return true;
         }
+
+        public bool CheckIfGameIsOver(bool[,] currentFigure, int col)
+        {
+            for (int c = 0; c < currentFigure.GetLength(1); c++)
+            {
+                if(this.field.Matrix[0, col -1 + c])
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

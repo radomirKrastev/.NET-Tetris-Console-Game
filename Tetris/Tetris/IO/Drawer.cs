@@ -1,6 +1,7 @@
 ﻿namespace Tetris.IO
 {
     using System;
+    using System.Text;
     using Contracts;
     using Tetris.Configurations;
     using Tetris.GameInformation.Contracts;
@@ -92,6 +93,19 @@
                     }
                 }
             }
+        }
+
+        public void GameOver(int score)
+        {
+            var spaces = new string(' ', 12 - 1 - 1 - score.ToString().Length);
+            Console.SetCursorPosition(5, 5);
+            Console.Write("╔══════════╗");
+            Console.SetCursorPosition(5, 6);
+            Console.Write("║Game Over:║");
+            Console.SetCursorPosition(5, 7);
+            Console.Write($"║{score.ToString()}{spaces}║");
+            Console.SetCursorPosition(5, 8);
+            Console.Write("╚══════════╝");
         }
     }
 }

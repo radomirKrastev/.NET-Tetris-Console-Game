@@ -2,6 +2,8 @@
 {
     public interface IDrawable
     {
+        void GameOver(int score);
+
         void DrawWholeField(string wholeFields);
 
         void PrintScore(string score);
